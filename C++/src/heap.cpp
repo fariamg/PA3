@@ -20,7 +20,18 @@ void Heap::Inserir(int x) {
     HeapifyPorCima(pos);
 }
 
-int Heap::Remover() {}
+int Heap::Remover() {
+    int pos = 0;
+    while (pos < tamanho && data[pos] == 0) ++pos;
+
+    if (pos == tamanho)
+        throw std::underflow_error("Heap underflow: não é possível remover de heap vazia");
+
+    int valor = data[pos];
+    data[pos] = 0; // Remove o valor
+    HeapifyPorBaixo(pos);
+    return valor;
+}
 
 bool Heap::Vazio() {
     for (int i = 0; i < this->tamanho; ++i) {
@@ -31,13 +42,33 @@ bool Heap::Vazio() {
     return true;
 }
 
-// Retorna o index do pai
 int Heap::GetAncestral(int posicao) { return (posicao - 1) / 2; }
 
 int Heap::GetSucessorDir(int posicao) { return posicao * 2 + 1; }
 
 int Heap::GetSucessorEsq(int posicao) { return posicao * 2 + 2; }
 
-void Heap::HeapifyPorBaixo(int posicao) {}
+void Heap::HeapifyPorBaixo(int posicao) {
+    int maior = posicao;
+    int esq = GetSucessorEsq(posicao);
+    int dir = GetSucessorDir(posicao);
 
-void Heap::HeapifyPorCima(int posicao) {}
+    if (esq < tamanho && data[esq] > data[maior]) {
+        maior = esq;
+    }
+    if (dir < tamanho && data[dir] > data[maior]) {
+        maior = dir;
+    }
+    if (maior != posicao) {
+        std::swap(data[posicao], data[maior]);
+        HeapifyPorBaixo(maior);
+    }
+}
+
+void Heap::HeapifyPorCima(int posicao) {
+    int ancestral = GetAncestral(posicao);
+    if (posicao > 0 && data[posicao] > data[ancestral]) {
+        std::swap(data[posicao], data[ancestral]);
+        HeapifyPorCima(ancestral);
+    }
+}
