@@ -10,7 +10,7 @@ BIN_DIR := bin
 # Executável
 TARGET := $(BIN_DIR)/pa3.out
 
-# Fontes e objeto
+# Fontes e objetos
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
@@ -18,21 +18,17 @@ OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
 all: $(BIN_DIR) $(OBJ_DIR) $(TARGET)
 
-# Cria diretórios se não existirem
 $(BIN_DIR):
-    mkdir -p $(BIN_DIR)
+	mkdir -p $@
 
 $(OBJ_DIR):
-    mkdir -p $(OBJ_DIR)
+	mkdir -p $@
 
-# Linkagem do executável
 $(TARGET): $(OBJS)
-    $(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-# Compilação de cada .cpp em .o
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-    $(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Limpa binário e objetos
 clean:
-    rm -rf $(OBJ_DIR)/*.o $(TARGET)
+	rm -rf $(OBJ_DIR)/*.o $(TARGET)
