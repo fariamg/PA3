@@ -12,21 +12,21 @@ TARGET := $(BIN_DIR)/pa3.out
 
 # Fontes e objetos
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 .PHONY: all clean
 
-all: $(BIN_DIR) $(OBJ_DIR) $(TARGET)
+all: dirs $(TARGET)
 
-$(BIN_DIR):
-	mkdir -p $@
+# cria os diretórios bin/ e obj/
+dirs:
+	mkdir -p $(BIN_DIR) $(OBJ_DIR)
 
-$(OBJ_DIR):
-	mkdir -p $@
-
+# linkagem
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
+# compilação de cada fonte em objeto
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
