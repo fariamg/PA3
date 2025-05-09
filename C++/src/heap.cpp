@@ -1,4 +1,5 @@
 #include "heap.hpp"
+#include <stdexcept>
 
 Heap::Heap(int size) {
     this->tamanho = size;
@@ -7,7 +8,17 @@ Heap::Heap(int size) {
 
 Heap::~Heap() { delete[] this->data; }
 
-void Heap::Inserir(int x) {}
+void Heap::Inserir(int x) {
+    // Encontra a primeira posição livre (sentinela = 0)
+    int pos = 0;
+    while (pos < tamanho && data[pos] != 0) ++pos;
+
+    if (pos == tamanho)
+        throw std::overflow_error("Heap overflow: não é possível inserir em heap cheia");
+
+    data[pos] = x;
+    HeapifyPorCima(pos);
+}
 
 int Heap::Remover() {}
 
