@@ -2,7 +2,7 @@
 #include <algorithm> 
 #include <stdexcept>
 
-static int elementsCounter = 0;
+static int elementsCounter = 0; // GAMBIARRA DA PORRA KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
 
 Heap::Heap(int maxsize) {
     this->tamanho = maxsize;
